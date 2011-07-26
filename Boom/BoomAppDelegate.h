@@ -17,6 +17,7 @@
     NSButton *runbutton;
     NSPopUpButton *interfacesPopup;
     NSTableView *tableView;
+    NSTextField *packetFilterField;
     BOOL isRunning;
     pcap_t *pcap;
     NSMutableDictionary *counters;
@@ -33,6 +34,7 @@
 @property (assign) IBOutlet NSPopUpButton *interfacesPopup;
 @property (assign) IBOutlet NSTableView *tableView;
 @property (assign) IBOutlet NSArrayController *trafficInfoController;
+@property (assign) IBOutlet NSTextField *packetFilterField;
 
 //@property (readonly) IBOutlet NSArray *interfaceList;
 @property (readonly) IBOutlet NSArray *trafficInfo;

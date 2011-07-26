@@ -37,6 +37,7 @@
 @synthesize interfacesPopup;
 @synthesize tableView;
 @synthesize trafficInfoController;
+@synthesize packetFilterField;
 //@synthesize interfaceList;
 //@synthesize trafficInfo;
 @synthesize isRunning;
@@ -46,6 +47,8 @@
     counters = [[NSMutableDictionary alloc] init];
     // Insert code here to initialize your application
 }
+
+#pragma mark - Accessors
 
 - (NSArray *) interfaceList
 {
@@ -79,6 +82,8 @@
     return ret;
 }
 
+#pragma mark - Actions
+
 - (void) runButtonClicked:(id)sender
 {
     NSMenuItem *item = [interfacesPopup selectedItem];
@@ -106,6 +111,11 @@
         pcap_set_buffer_size(pcap, 65535);
         pcap_set_timeout(pcap, 100);
         pcap_set_promisc(pcap, 0);
+        
+        NSString *filter = [[packetFilterField stringValue] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]];
+        if (filter == nil || [filter length] == 0)
+            filter = @"tcp || udp";
+        
         if (pcap_activate(pcap) != 0)
         {
             Debug(@"pcap_activate: %s", pcap_geterr(pcap));
@@ -122,9 +132,10 @@
             pcap = NULL;
             return;
         }
-        
+
         struct bpf_program prog;
-        if (pcap_compile(pcap, &prog, "tcp || udp", YES, 0) != 0)
+        Debug(@"using filter %@", filter);
+        if (pcap_compile(pcap, &prog, [filter cStringUsingEncoding: NSISOLatin1StringEncoding], YES, PCAP_NETMASK_UNKNOWN) != 0)
         {
             Debug(@"pcap_compile: %s", pcap_geterr(pcap));
             [[NSAlert alertWithMessageText: @"Error"
@@ -140,7 +151,24 @@
             pcap = NULL;
             return;
         }
-        pcap_setfilter(pcap, &prog);
+        int ret = pcap_setfilter(pcap, &prog);
+        Debug(@"pcap_setfilter returned %d", ret);
+        if (ret < 0)
+        {
+            Debug(@"pcap_setfilter: %s", pcap_geterr(pcap));
+            [[NSAlert alertWithMessageText: @"Error"
+                             defaultButton: @"OK"
+                           alternateButton: nil
+                               otherButton: nil
+                 informativeTextWithFormat: @"pcap_setfilter error: %s", pcap_geterr(pcap)]
+             beginSheetModalForWindow: window
+             modalDelegate: nil
+             didEndSelector: NULL
+             contextInfo: NULL];
+            pcap_close(pcap);
+            pcap = NULL;
+            return;            
+        }
         
         memset(&inaddr, 0xFF, sizeof(struct in_addr));
         memset(&in6addr, 0xFF, sizeof(struct in6_addr));
@@ -187,6 +215,8 @@
     [counters removeAllObjects];
     [trafficInfoController setContent: [self trafficInfo]];
 }
+
+#pragma mark - Packet handling
 
 - (void) handlePacketHeader:(const struct pcap_pkthdr *)hdr withData:(const u_char *)data
 {
