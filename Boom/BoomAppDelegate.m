@@ -17,11 +17,18 @@
 #include <arpa/inet.h>
 #include <netinet/if_ether.h>
 #include <netinet/ip.h>
+#include <netinet/ip6.h>
 #include <netinet/tcp.h>
 #include <netinet/udp.h>
 
 #include "NetworkAddress.h"
 #include "TrafficEntry.h"
+
+#ifdef DEBUG
+#define Debug(fmt, args...) NSLog(fmt, ##args)
+#else
+#define Debug(fmt, args...)
+#endif
 
 @implementation BoomAppDelegate
 
@@ -68,23 +75,23 @@
 - (NSArray *) trafficInfo
 {
     NSArray *ret = [counters allValues];
-    NSLog(@"returning %lu traffic infos", [ret count]);
+    Debug(@"returning %lu traffic infos", [ret count]);
     return ret;
 }
 
 - (void) runButtonClicked:(id)sender
 {
     NSMenuItem *item = [interfacesPopup selectedItem];
-    //NSLog(@"selected item: %@", item.title);
+    //Debug(@"selected item: %@", item.title);
     if (!isRunning)
     {
         char errbuf[PCAP_ERRBUF_SIZE];
         const char *dev = [item.title cStringUsingEncoding: NSISOLatin1StringEncoding];
-        //NSLog(@"capture from device %s", dev);
+        //Debug(@"capture from device %s", dev);
         pcap = pcap_create(dev, errbuf);
         if (pcap == NULL)
         {
-            NSLog(@"pcap_open_live: %s", errbuf);
+            Debug(@"pcap_open_live: %s", errbuf);
             [[NSAlert alertWithMessageText: @"Error"
                              defaultButton: @"OK"
                            alternateButton: nil
@@ -101,7 +108,7 @@
         pcap_set_promisc(pcap, 0);
         if (pcap_activate(pcap) != 0)
         {
-            NSLog(@"pcap_activate: %s", pcap_geterr(pcap));
+            Debug(@"pcap_activate: %s", pcap_geterr(pcap));
             [[NSAlert alertWithMessageText: @"Error"
                              defaultButton: @"OK"
                            alternateButton: nil
@@ -119,7 +126,7 @@
         struct bpf_program prog;
         if (pcap_compile(pcap, &prog, "tcp || udp", YES, 0) != 0)
         {
-            NSLog(@"pcap_compile: %s", pcap_geterr(pcap));
+            Debug(@"pcap_compile: %s", pcap_geterr(pcap));
             [[NSAlert alertWithMessageText: @"Error"
                              defaultButton: @"OK"
                            alternateButton: nil
@@ -152,96 +159,196 @@
             }
         }
         
-        NSRunLoop *runloop = [NSRunLoop currentRunLoop];
-        [runloop performSelector: @selector(performLoop)
-                          target: self
-                        argument: nil
-                           order: 0
-                           modes: [NSArray arrayWithObject: NSRunLoopCommonModes]];
-        
+        loopTimer = [NSTimer scheduledTimerWithTimeInterval: 0.1
+                                                     target: self
+                                                   selector: @selector(performLoop)
+                                                   userInfo: nil
+                                                    repeats: YES];
+        [loopTimer retain];
+
         runbutton.title = @"Stop";
         isRunning = YES;
     }
     else
     {
+        if (loopTimer != nil)
+        {
+            [loopTimer invalidate];
+            [loopTimer release];
+            loopTimer = nil;
+        }
         runbutton.title = @"Run";
         isRunning = NO;
     }
 }
 
+- (IBAction) clearButtonClicked:(id)sender
+{
+    [counters removeAllObjects];
+    [trafficInfoController setContent: [self trafficInfo]];
+}
+
 - (void) handlePacketHeader:(const struct pcap_pkthdr *)hdr withData:(const u_char *)data
 {
     struct ether_header *ether = (struct ether_header *) data;
-    NSLog(@"capture: %ld %u %u 0x%x", hdr->ts.tv_sec, hdr->caplen, hdr->len, ether->ether_type);
+#ifdef DEBUG
+    Debug(@"capture: %ld %u %u 0x%x", hdr->ts.tv_sec, hdr->caplen, hdr->len, ether->ether_type);
+#endif
     if (ntohs(ether->ether_type) == ETHERTYPE_IP)
     {
         struct ip *ip = (struct ip *) (data + sizeof(struct ether_header));
-        //NSLog(@"  IPv4, %x", ip->ip_p);
+#ifdef DEBUG
+        Debug(@"  IPv4, %d %d %x", ip->ip_v, ip->ip_hl, ip->ip_p);
+#endif
         if (ip->ip_p == IPPROTO_TCP)
         {
-            //NSLog(@"  TCP");
-            struct tcphdr *tcp = (struct tcphdr *) (data + sizeof(struct ether_header) + (ip->ip_hl*32));
+            struct tcphdr *tcp = (struct tcphdr *) (data + sizeof(struct ether_header) + (ip->ip_hl*4));
+#ifdef DEBUG
+            Debug(@"  TCP %d %d", tcp->th_sport, tcp->th_dport);
+#endif
             if (memcmp(&ip->ip_dst, &inaddr, sizeof(struct in_addr)) == 0)
             {
-                //NSLog(@"  received packet");
+                //Debug(@"  received packet");
                 NetworkAddress *addr = [[NetworkAddress alloc] initWithIP4Address: ip->ip_src
-                                                                             port: tcp->th_sport];
+                                                                             port: tcp->th_sport
+                                                                       socketType: IPPROTO_TCP];
                 TrafficEntry *entry = [counters objectForKey: addr];
                 if (entry == nil)
                 {
                     entry = [[TrafficEntry alloc] initWithAddress: addr];
                     [counters setObject: entry forKey: addr];
+                    [entry release];
                 }
-                entry._bytesIn += 1;
+                entry._bytesIn += hdr->len - sizeof(struct ether_header) - (ip->ip_hl*4) - (tcp->th_off*4);
+                [addr release];
             }
             else if (memcmp(&ip->ip_src, &inaddr, sizeof(struct in_addr)) == 0)
             {
-                //NSLog(@"  sent packet");
+                //Debug(@"  sent packet");
                 NetworkAddress *addr = [[NetworkAddress alloc] initWithIP4Address: ip->ip_dst
-                                                                             port: tcp->th_dport];
+                                                                             port: tcp->th_dport
+                                                                       socketType: IPPROTO_TCP];
                 TrafficEntry *entry = [counters objectForKey: addr];
                 if (entry == nil)
                 {
                     entry = [[TrafficEntry alloc] initWithAddress: addr];
                     [counters setObject: entry forKey: addr];
+                    [entry release];
                 }
-                entry._bytesOut += 1;
+                entry._bytesOut += hdr->len - sizeof(struct ether_header) - (ip->ip_hl*4) - (tcp->th_off*4);
+                [addr release];
             }
         }
         if (ip->ip_p == IPPROTO_UDP)
         {
-            //NSLog(@"  UDP");
-            struct udphdr *udp = (struct udphdr *) (data + sizeof(struct ether_header) + (ip->ip_hl*32));
+            //Debug(@"  UDP");
+            struct udphdr *udp = (struct udphdr *) (data + sizeof(struct ether_header) + (ip->ip_hl*4));
             if (memcmp(&ip->ip_dst, &inaddr, sizeof(struct in_addr)) == 0)
             {
-                //NSLog(@"  received packet");
+                //Debug(@"  received packet");
                 NetworkAddress *addr = [[NetworkAddress alloc] initWithIP4Address: ip->ip_src
-                                                                             port: udp->uh_sport];
+                                                                             port: udp->uh_sport
+                                                                       socketType: IPPROTO_UDP];
                 TrafficEntry *entry = [counters objectForKey: addr];
                 if (entry == nil)
                 {
                     entry = [[TrafficEntry alloc] initWithAddress: addr];
                     [counters setObject: entry forKey: addr];
+                    [entry release];
                 }
-                entry._bytesIn += 1;
+                entry._bytesIn += udp->uh_ulen - 8;
+                [addr release];
             }
             else if (memcmp(&ip->ip_src, &inaddr, sizeof(struct in_addr)) == 0)
             {
-                //NSLog(@"  sent packet");
+                //Debug(@"  sent packet");
                 NetworkAddress *addr = [[NetworkAddress alloc] initWithIP4Address: ip->ip_dst
-                                                                             port: udp->uh_dport];
+                                                                             port: udp->uh_dport
+                                                                       socketType: IPPROTO_UDP];
                 TrafficEntry *entry = [counters objectForKey: addr];
                 if (entry == nil)
                 {
                     entry = [[TrafficEntry alloc] initWithAddress: addr];
                     [counters setObject: entry forKey: addr];
+                    [entry release];
                 }
-                entry._bytesOut += 1;
+                entry._bytesOut += udp->uh_ulen - 8;
+                [addr release];
             }
         }
     }
     else if (ntohs(ether->ether_type) == ETHERTYPE_IPV6)
     {
+        struct ip6_hdr *ip6 = (struct ip6_hdr *) (data + sizeof(struct ether_header));
+        unsigned long hdrlen = hdr->len - sizeof(struct ether_header) - ip6->ip6_ctlun.ip6_un1.ip6_un1_plen;
+        if (ip6->ip6_ctlun.ip6_un1.ip6_un1_nxt == IPPROTO_TCP)
+        {
+            struct tcphdr *tcp = (struct tcphdr *) (data + sizeof(struct ether_header) + hdrlen);
+            if (memcmp(&ip6->ip6_dst, &in6addr, sizeof(struct in6_addr)) == 0)
+            {
+                NetworkAddress *addr = [[NetworkAddress alloc] initWithIP6Address: ip6->ip6_src
+                                                                             port: tcp->th_sport
+                                                                       socketType: IPPROTO_TCP];
+                TrafficEntry *entry = [counters objectForKey: addr];
+                if (entry == nil)
+                {
+                    entry = [[TrafficEntry alloc] initWithAddress: addr];
+                    [counters setObject: entry forKey: addr];
+                    [entry release];
+                }
+                entry._bytesIn += ip6->ip6_ctlun.ip6_un1.ip6_un1_plen - (tcp->th_off*4);
+                [addr release];
+            }
+            else if (memcmp(&ip6->ip6_src, &in6addr, sizeof(struct in6_addr)) == 0)
+            {
+                NetworkAddress *addr = [[NetworkAddress alloc] initWithIP6Address: ip6->ip6_dst
+                                                                             port: tcp->th_dport
+                                                                       socketType: IPPROTO_TCP];
+                TrafficEntry *entry = [counters objectForKey: addr];
+                if (entry == nil)
+                {
+                    entry = [[TrafficEntry alloc] initWithAddress: addr];
+                    [counters setObject: entry forKey: addr];
+                    [entry release];
+                }
+                entry._bytesOut += ip6->ip6_ctlun.ip6_un1.ip6_un1_plen - (tcp->th_off*4);
+                [addr release];                
+            }
+        }
+        else if (ip6->ip6_ctlun.ip6_un1.ip6_un1_nxt == IPPROTO_UDP)
+        {
+            struct udphdr *udp = (struct udphdr *) (data + sizeof(struct ether_header) + hdrlen);
+            if (memcmp(&ip6->ip6_dst, &in6addr, sizeof(struct in6_addr)) == 0)
+            {
+                NetworkAddress *addr = [[NetworkAddress alloc] initWithIP6Address: ip6->ip6_src
+                                                                             port: udp->uh_sport
+                                                                       socketType: IPPROTO_UDP];
+                TrafficEntry *entry = [counters objectForKey: addr];
+                if (entry == nil)
+                {
+                    entry = [[TrafficEntry alloc] initWithAddress: addr];
+                    [counters setObject: entry forKey: addr];
+                    [entry release];
+                }
+                entry._bytesIn += udp->uh_ulen - 8;
+                [addr release];
+            }
+            else if (memcmp(&ip6->ip6_src, &in6addr, sizeof(struct in6_addr)) == 0)
+            {
+                NetworkAddress *addr = [[NetworkAddress alloc] initWithIP6Address: ip6->ip6_dst
+                                                                             port: udp->uh_dport
+                                                                       socketType: IPPROTO_UDP];
+                TrafficEntry *entry = [counters objectForKey: addr];
+                if (entry == nil)
+                {
+                    entry = [[TrafficEntry alloc] initWithAddress: addr];
+                    [counters setObject: entry forKey: addr];
+                    [entry release];
+                }
+                entry._bytesOut += udp->uh_ulen - 8;
+                [addr release];
+            }
+        }   
     }
 }
 
@@ -258,12 +365,6 @@ static void handle_pcap(u_char *user, const struct pcap_pkthdr *hdr, const u_cha
         pcap_dispatch(pcap, 20, handle_pcap, (u_char *) self);
         //[tableView reloadData];
         [trafficInfoController setContent: [self trafficInfo]];
-        NSRunLoop *runloop = [NSRunLoop currentRunLoop];
-        [runloop performSelector: @selector(performLoop)
-                          target: self
-                        argument: nil
-                           order: 0
-                           modes: [NSArray arrayWithObject: NSRunLoopCommonModes]];    
     }
     else
     {

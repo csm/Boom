@@ -29,19 +29,28 @@
     return address.addressName;
 }
 
-- (NSString *) port
+- (NSString *) protocol
 {
-    return [NSString stringWithFormat: @"%d", address.port];
+    if (address.socketType == IPPROTO_UDP)
+        return @"UDP";
+    if (address.socketType == IPPROTO_TCP)
+        return @"TCP";
+    return @"???";
 }
 
-- (NSString *) bytesIn
+- (NSNumber *) port
 {
-    return [NSString stringWithFormat: @"%llu", _bytesIn];
+    return [NSNumber numberWithInt: address.port];
 }
 
-- (NSString *) bytesOut
+- (NSNumber *) bytesIn
 {
-    return [NSString stringWithFormat: @"%llu", _bytesOut];
+    return [NSNumber numberWithUnsignedLongLong: _bytesIn];
+}
+
+- (NSNumber *) bytesOut
+{
+    return [NSNumber numberWithUnsignedLongLong: _bytesOut];
 }
 
 - (void) dealloc

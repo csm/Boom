@@ -20,6 +20,7 @@
     BOOL isRunning;
     pcap_t *pcap;
     NSMutableDictionary *counters;
+    NSTimer *loopTimer;
     
     NSArrayController *trafficInfoController;
     
@@ -40,6 +41,7 @@
 - (NSArray *) interfaceList;
 
 - (IBAction) runButtonClicked: (id) sender;
+- (IBAction) clearButtonClicked: (id) sender;
 
 - (void) performLoop;
 - (void) handlePacketHeader: (const struct pcap_pkthdr *) hdr

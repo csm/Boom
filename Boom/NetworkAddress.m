@@ -13,6 +13,7 @@
 @implementation NetworkAddress
 
 - (id) initWithSocketAddress: (const struct sockaddr *) addr
+                  socketType: (int) type
 {
     self = [super init];
     if (self)
@@ -29,34 +30,47 @@
         {
             memset(&address.s_addr, 0, sizeof(struct sockaddr));
         }
+        if (type == IPPROTO_UDP || type == IPPROTO_TCP)
+            socketType = type;
+        else
+            socketType = -1;
     }
     
     return self;
 }
 
 - (id) initWithIP4Address:(struct in_addr)addr port:(uint16_t)port
+               socketType:(int)type
 {
     struct sockaddr_in in4;
     memset(&in4, 0, sizeof(struct sockaddr_in));
     in4.sin_family = AF_INET;
     memcpy(&in4.sin_addr, &addr, sizeof(struct in_addr));
     in4.sin_port = port;
-    return [self initWithSocketAddress: (const struct sockaddr *) &in4];
+    return [self initWithSocketAddress: (const struct sockaddr *) &in4
+                            socketType: type];
 }
 
 - (id) initWithIP6Address:(struct in6_addr)addr port:(uint16_t)port
+               socketType:(int)type
 {
     struct sockaddr_in6 in6;
     memset(&in6, 0, sizeof(struct sockaddr_in6));
     in6.sin6_family = AF_INET6;
     memcpy(&in6.sin6_addr, &addr, sizeof(struct in6_addr));
     in6.sin6_port = port;
-    return [self initWithSocketAddress: (const struct sockaddr *) &in6];
+    return [self initWithSocketAddress: (const struct sockaddr *) &in6
+                            socketType: type];
 }
 
 - (int) family
 {
     return address.s_addr.sa_family;
+}
+
+- (int) socketType
+{
+    return socketType;
 }
 
 - (int) port
@@ -101,9 +115,9 @@
 - (NSUInteger) hash
 {
     if (self.family == AF_INET)
-        return [self.addressName hash] ^ address.s_in4.sin_port;
+        return [self.addressName hash] ^ address.s_in4.sin_port ^ socketType;
     if (self.family == AF_INET6)
-        return [self.addressName hash] ^ address.s_in6.sin6_port;
+        return [self.addressName hash] ^ address.s_in6.sin6_port ^ socketType;
     return 0;
 }
 
@@ -112,7 +126,7 @@
     if ([object isKindOfClass: [NetworkAddress class]])
     {
         NetworkAddress *that = (NetworkAddress *) object;
-        if (self.family == that.family)
+        if (self.family == that.family && self.socketType == that.socketType)
         {
             if (self.family == AF_INET)
             {
@@ -131,7 +145,7 @@
 
 - (id) copyWithZone:(NSZone *)zone
 {
-    NetworkAddress *ret = [[NetworkAddress allocWithZone: zone] initWithSocketAddress: &address.s_addr];
+    NetworkAddress *ret = [[NetworkAddress allocWithZone: zone] initWithSocketAddress: &address.s_addr socketType: socketType];
     return ret;
 }
 

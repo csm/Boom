@@ -19,9 +19,10 @@
 
 @property (nonatomic, readwrite, retain) NetworkAddress *address;
 @property (nonatomic, readonly) NSString *hostname;
-@property (nonatomic, readonly) NSString *port;
-@property (nonatomic, readonly) NSString *bytesIn;
-@property (nonatomic, readonly) NSString *bytesOut;
+@property (nonatomic, readonly) NSString *protocol;
+@property (nonatomic, readonly) NSNumber *port;
+@property (nonatomic, readonly) NSNumber *bytesIn;
+@property (nonatomic, readonly) NSNumber *bytesOut;
 
 @property (nonatomic, assign) unsigned long long _bytesIn;
 @property (nonatomic, assign) unsigned long long _bytesOut;
