@@ -1,0 +1,304 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		70A8790C13DE427100BF60D9 /* bob-omb.png in Resources */ = {isa = PBXBuildFile; fileRef = 70A8790B13DE427100BF60D9 /* bob-omb.png */; };
+		70A8791013DE463500BF60D9 /* TrafficEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 70A8790F13DE463500BF60D9 /* TrafficEntry.m */; };
+		70BBB26413DE3BAF00300581 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70BBB26313DE3BAF00300581 /* Cocoa.framework */; };
+		70BBB26E13DE3BAF00300581 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 70BBB26C13DE3BAF00300581 /* InfoPlist.strings */; };
+		70BBB27013DE3BAF00300581 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 70BBB26F13DE3BAF00300581 /* main.m */; };
+		70BBB27413DE3BAF00300581 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 70BBB27213DE3BAF00300581 /* Credits.rtf */; };
+		70BBB27713DE3BAF00300581 /* BoomAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70BBB27613DE3BAF00300581 /* BoomAppDelegate.m */; };
+		70BBB27A13DE3BAF00300581 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70BBB27813DE3BAF00300581 /* MainMenu.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		70A8790B13DE427100BF60D9 /* bob-omb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bob-omb.png"; sourceTree = "<group>"; };
+		70A8790E13DE463500BF60D9 /* TrafficEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrafficEntry.h; sourceTree = "<group>"; };
+		70A8790F13DE463500BF60D9 /* TrafficEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrafficEntry.m; sourceTree = "<group>"; };
+		70BBB25F13DE3BAE00300581 /* Boom.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Boom.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		70BBB26313DE3BAF00300581 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		70BBB26613DE3BAF00300581 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		70BBB26713DE3BAF00300581 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		70BBB26813DE3BAF00300581 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		70BBB26B13DE3BAF00300581 /* Boom-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Boom-Info.plist"; sourceTree = "<group>"; };
+		70BBB26D13DE3BAF00300581 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		70BBB26F13DE3BAF00300581 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		70BBB27113DE3BAF00300581 /* Boom-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Boom-Prefix.pch"; sourceTree = "<group>"; };
+		70BBB27313DE3BAF00300581 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		70BBB27513DE3BAF00300581 /* BoomAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BoomAppDelegate.h; sourceTree = "<group>"; };
+		70BBB27613DE3BAF00300581 /* BoomAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BoomAppDelegate.m; sourceTree = "<group>"; };
+		70BBB27913DE3BAF00300581 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		70BBB25C13DE3BAE00300581 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				70BBB26413DE3BAF00300581 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		70BBB25413DE3BAE00300581 = {
+			isa = PBXGroup;
+			children = (
+				70A8790B13DE427100BF60D9 /* bob-omb.png */,
+				70BBB26913DE3BAF00300581 /* Boom */,
+				70BBB26213DE3BAE00300581 /* Frameworks */,
+				70BBB26013DE3BAE00300581 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		70BBB26013DE3BAE00300581 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				70BBB25F13DE3BAE00300581 /* Boom.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		70BBB26213DE3BAE00300581 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				70BBB26313DE3BAF00300581 /* Cocoa.framework */,
+				70BBB26513DE3BAF00300581 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		70BBB26513DE3BAF00300581 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				70BBB26613DE3BAF00300581 /* AppKit.framework */,
+				70BBB26713DE3BAF00300581 /* CoreData.framework */,
+				70BBB26813DE3BAF00300581 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		70BBB26913DE3BAF00300581 /* Boom */ = {
+			isa = PBXGroup;
+			children = (
+				70BBB27513DE3BAF00300581 /* BoomAppDelegate.h */,
+				70BBB27613DE3BAF00300581 /* BoomAppDelegate.m */,
+				70BBB27813DE3BAF00300581 /* MainMenu.xib */,
+				70BBB26A13DE3BAF00300581 /* Supporting Files */,
+				70A8790E13DE463500BF60D9 /* TrafficEntry.h */,
+				70A8790F13DE463500BF60D9 /* TrafficEntry.m */,
+			);
+			path = Boom;
+			sourceTree = "<group>";
+		};
+		70BBB26A13DE3BAF00300581 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				70BBB26B13DE3BAF00300581 /* Boom-Info.plist */,
+				70BBB26C13DE3BAF00300581 /* InfoPlist.strings */,
+				70BBB26F13DE3BAF00300581 /* main.m */,
+				70BBB27113DE3BAF00300581 /* Boom-Prefix.pch */,
+				70BBB27213DE3BAF00300581 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		70BBB25E13DE3BAE00300581 /* Boom */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 70BBB27D13DE3BAF00300581 /* Build configuration list for PBXNativeTarget "Boom" */;
+			buildPhases = (
+				70BBB25B13DE3BAE00300581 /* Sources */,
+				70BBB25C13DE3BAE00300581 /* Frameworks */,
+				70BBB25D13DE3BAE00300581 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Boom;
+			productName = Boom;
+			productReference = 70BBB25F13DE3BAE00300581 /* Boom.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		70BBB25613DE3BAE00300581 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = "Memeo, Inc.";
+			};
+			buildConfigurationList = 70BBB25913DE3BAE00300581 /* Build configuration list for PBXProject "Boom" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 70BBB25413DE3BAE00300581;
+			productRefGroup = 70BBB26013DE3BAE00300581 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				70BBB25E13DE3BAE00300581 /* Boom */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		70BBB25D13DE3BAE00300581 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				70BBB26E13DE3BAF00300581 /* InfoPlist.strings in Resources */,
+				70BBB27413DE3BAF00300581 /* Credits.rtf in Resources */,
+				70BBB27A13DE3BAF00300581 /* MainMenu.xib in Resources */,
+				70A8790C13DE427100BF60D9 /* bob-omb.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		70BBB25B13DE3BAE00300581 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				70BBB27013DE3BAF00300581 /* main.m in Sources */,
+				70BBB27713DE3BAF00300581 /* BoomAppDelegate.m in Sources */,
+				70A8791013DE463500BF60D9 /* TrafficEntry.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		70BBB26C13DE3BAF00300581 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				70BBB26D13DE3BAF00300581 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		70BBB27213DE3BAF00300581 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				70BBB27313DE3BAF00300581 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		70BBB27813DE3BAF00300581 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				70BBB27913DE3BAF00300581 /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		70BBB27B13DE3BAF00300581 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		70BBB27C13DE3BAF00300581 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		70BBB27E13DE3BAF00300581 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Boom/Boom-Prefix.pch";
+				INFOPLIST_FILE = "Boom/Boom-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		70BBB27F13DE3BAF00300581 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Boom/Boom-Prefix.pch";
+				INFOPLIST_FILE = "Boom/Boom-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		70BBB25913DE3BAE00300581 /* Build configuration list for PBXProject "Boom" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				70BBB27B13DE3BAF00300581 /* Debug */,
+				70BBB27C13DE3BAF00300581 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		70BBB27D13DE3BAF00300581 /* Build configuration list for PBXNativeTarget "Boom" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				70BBB27E13DE3BAF00300581 /* Debug */,
+				70BBB27F13DE3BAF00300581 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 70BBB25613DE3BAE00300581 /* Project object */;
+}
