@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		707B66FF13DE7043009E98CB /* bob-omb.icns in Resources */ = {isa = PBXBuildFile; fileRef = 707B66FE13DE7043009E98CB /* bob-omb.icns */; };
+		707B670213DE796C009E98CB /* NetworkAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 707B670113DE796C009E98CB /* NetworkAddress.m */; };
 		70A8790C13DE427100BF60D9 /* bob-omb.png in Resources */ = {isa = PBXBuildFile; fileRef = 70A8790B13DE427100BF60D9 /* bob-omb.png */; };
 		70A8791013DE463500BF60D9 /* TrafficEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 70A8790F13DE463500BF60D9 /* TrafficEntry.m */; };
 		70BBB26413DE3BAF00300581 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70BBB26313DE3BAF00300581 /* Cocoa.framework */; };
@@ -18,6 +20,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		707B66FE13DE7043009E98CB /* bob-omb.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "bob-omb.icns"; sourceTree = "<group>"; };
+		707B670013DE796B009E98CB /* NetworkAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkAddress.h; sourceTree = "<group>"; };
+		707B670113DE796C009E98CB /* NetworkAddress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkAddress.m; sourceTree = "<group>"; };
 		70A8790B13DE427100BF60D9 /* bob-omb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bob-omb.png"; sourceTree = "<group>"; };
 		70A8790E13DE463500BF60D9 /* TrafficEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrafficEntry.h; sourceTree = "<group>"; };
 		70A8790F13DE463500BF60D9 /* TrafficEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrafficEntry.m; sourceTree = "<group>"; };
@@ -51,6 +56,7 @@
 		70BBB25413DE3BAE00300581 = {
 			isa = PBXGroup;
 			children = (
+				707B66FE13DE7043009E98CB /* bob-omb.icns */,
 				70A8790B13DE427100BF60D9 /* bob-omb.png */,
 				70BBB26913DE3BAF00300581 /* Boom */,
 				70BBB26213DE3BAE00300581 /* Frameworks */,
@@ -94,6 +100,8 @@
 				70BBB26A13DE3BAF00300581 /* Supporting Files */,
 				70A8790E13DE463500BF60D9 /* TrafficEntry.h */,
 				70A8790F13DE463500BF60D9 /* TrafficEntry.m */,
+				707B670013DE796B009E98CB /* NetworkAddress.h */,
+				707B670113DE796C009E98CB /* NetworkAddress.m */,
 			);
 			path = Boom;
 			sourceTree = "<group>";
@@ -136,6 +144,7 @@
 		70BBB25613DE3BAE00300581 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastUpgradeCheck = 0420;
 				ORGANIZATIONNAME = "Memeo, Inc.";
 			};
 			buildConfigurationList = 70BBB25913DE3BAE00300581 /* Build configuration list for PBXProject "Boom" */;
@@ -164,6 +173,7 @@
 				70BBB27413DE3BAF00300581 /* Credits.rtf in Resources */,
 				70BBB27A13DE3BAF00300581 /* MainMenu.xib in Resources */,
 				70A8790C13DE427100BF60D9 /* bob-omb.png in Resources */,
+				707B66FF13DE7043009E98CB /* bob-omb.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -177,6 +187,7 @@
 				70BBB27013DE3BAF00300581 /* main.m in Sources */,
 				70BBB27713DE3BAF00300581 /* BoomAppDelegate.m in Sources */,
 				70A8791013DE463500BF60D9 /* TrafficEntry.m in Sources */,
+				707B670213DE796C009E98CB /* NetworkAddress.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,6 +272,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Boom/Boom-Prefix.pch";
 				INFOPLIST_FILE = "Boom/Boom-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_LDFLAGS = "-lpcap";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -273,6 +285,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Boom/Boom-Prefix.pch";
 				INFOPLIST_FILE = "Boom/Boom-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_LDFLAGS = "-lpcap";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;

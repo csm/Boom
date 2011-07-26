@@ -10,22 +10,43 @@
 
 @implementation TrafficEntry
 
-@synthesize hostname, protocol, bytesIn, bytesOut;
+@synthesize address, _bytesIn, _bytesOut;
 
-- (id)init
+- (id) initWithAddress:(NetworkAddress *)addr
 {
     self = [super init];
-    if (self) {
-        // Initialization code here.
+    if (self)
+    {
+        address = addr;
+        [address retain];
     }
     
     return self;
 }
 
+- (NSString *) hostname
+{
+    return address.addressName;
+}
+
+- (NSString *) port
+{
+    return [NSString stringWithFormat: @"%d", address.port];
+}
+
+- (NSString *) bytesIn
+{
+    return [NSString stringWithFormat: @"%llu", _bytesIn];
+}
+
+- (NSString *) bytesOut
+{
+    return [NSString stringWithFormat: @"%llu", _bytesOut];
+}
+
 - (void) dealloc
 {
-    [hostname release];
-    [protocol release];
+    [address release];
     [super dealloc];
 }
 

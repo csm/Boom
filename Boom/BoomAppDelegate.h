@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #include <pcap/pcap.h>
+#include <netinet/in.h>
 
 @interface BoomAppDelegate : NSObject <NSApplicationDelegate, NSWindowDelegate> {
     NSWindow *window;
@@ -15,13 +16,22 @@
     NSArray *trafficInfo;
     NSButton *runbutton;
     NSPopUpButton *interfacesPopup;
+    NSTableView *tableView;
     BOOL isRunning;
     pcap_t *pcap;
+    NSMutableDictionary *counters;
+    
+    NSArrayController *trafficInfoController;
+    
+    struct in_addr inaddr;
+    struct in6_addr in6addr;
 }
 
 @property (assign) IBOutlet NSWindow *window;
 @property (assign) IBOutlet NSButton *runbutton;
 @property (assign) IBOutlet NSPopUpButton *interfacesPopup;
+@property (assign) IBOutlet NSTableView *tableView;
+@property (assign) IBOutlet NSArrayController *trafficInfoController;
 
 //@property (readonly) IBOutlet NSArray *interfaceList;
 @property (readonly) IBOutlet NSArray *trafficInfo;
