@@ -75,13 +75,14 @@ struct sniff_ipX
 {
     NSMenuItem *item = [interfacesPopup selectedItem];
     NSLog(@"selected item: %@", item.title);
-    if (isRunning)
+    if (!isRunning)
     {
         char errbuf[PCAP_ERRBUF_SIZE];
         pcap = pcap_open_live([item.title cStringUsingEncoding: NSISOLatin1StringEncoding],
-                                      65535, NO, 1000, errbuf);
+                                      65535, NO, 100, errbuf);
         if (pcap == NULL)
         {
+            NSLog(@"pcap_open_live: %@", errbuf);
             [[NSAlert alertWithMessageText: @"Error"
                              defaultButton: @"OK"
                            alternateButton: nil
@@ -97,6 +98,7 @@ struct sniff_ipX
         struct bpf_program prog;
         if (pcap_compile(pcap, &prog, "tcp || udp", YES, 0) != 0)
         {
+            NSLog(@"pcap_compile: %@", pcap_geterr(pcap));
             [[NSAlert alertWithMessageText: @"Error"
                              defaultButton: @"OK"
                            alternateButton: nil
@@ -117,19 +119,19 @@ struct sniff_ipX
                            order: 0
                            modes: [NSArray arrayWithObject: (NSString *) kCFRunLoopDefaultMode]];
         
-        runbutton.title = @"Run";
-        isRunning = NO;
+        runbutton.title = @"Stop";
+        isRunning = YES;
     }
     else
     {
-        runbutton.title = @"Stop";
+        runbutton.title = @"Run";
         isRunning = NO;
     }
 }
 
 - (void) handlePacketHeader:(const struct pcap_pkthdr *)hdr withData:(const u_char *)data
 {
-    
+    NSLog(@"capture: %ld %u %u", hdr->ts.tv_sec, hdr->caplen, hdr->len);
 }
 
 static void handle_pcap(u_char *user, const struct pcap_pkthdr *hdr, const u_char *bytes)
