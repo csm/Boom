@@ -289,7 +289,7 @@
 		70BBB26613DE3BAF00300581 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		70BBB26713DE3BAF00300581 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		70BBB26813DE3BAF00300581 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		70BBB26B13DE3BAF00300581 /* Boom-Info-in.plist */ = {isa = PBXFileReference; path = "Boom-Info-in.plist"; sourceTree = "<group>"; };
+		70BBB26B13DE3BAF00300581 /* Boom-Info-in.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Boom-Info-in.plist"; sourceTree = "<group>"; };
 		70BBB26D13DE3BAF00300581 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		70BBB26F13DE3BAF00300581 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		70BBB27113DE3BAF00300581 /* Boom-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Boom-Prefix.pch"; sourceTree = "<group>"; };
@@ -873,6 +873,7 @@
 			inputPaths = (
 			);
 			outputPaths = (
+				"$(SRCROOT)/Boom/Boom-Info.plist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
