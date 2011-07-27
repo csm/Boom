@@ -41,6 +41,7 @@
 		70BBB27713DE3BAF00300581 /* BoomAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70BBB27613DE3BAF00300581 /* BoomAppDelegate.m */; };
 		70BBB27A13DE3BAF00300581 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70BBB27813DE3BAF00300581 /* MainMenu.xib */; };
 		70CD40C913DF7A9900B786DD /* libpcap.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70A87A3E13DF6E9A00BF60D9 /* libpcap.a */; };
+		70FAF08713E0C8FC00986B0D /* Boom-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 70FAF08613E0C8FC00986B0D /* Boom-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -288,7 +289,7 @@
 		70BBB26613DE3BAF00300581 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		70BBB26713DE3BAF00300581 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		70BBB26813DE3BAF00300581 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		70BBB26B13DE3BAF00300581 /* Boom-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Boom-Info.plist"; sourceTree = "<group>"; };
+		70BBB26B13DE3BAF00300581 /* Boom-Info-in.plist */ = {isa = PBXFileReference; path = "Boom-Info-in.plist"; sourceTree = "<group>"; };
 		70BBB26D13DE3BAF00300581 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		70BBB26F13DE3BAF00300581 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		70BBB27113DE3BAF00300581 /* Boom-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Boom-Prefix.pch"; sourceTree = "<group>"; };
@@ -296,6 +297,7 @@
 		70BBB27513DE3BAF00300581 /* BoomAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BoomAppDelegate.h; sourceTree = "<group>"; };
 		70BBB27613DE3BAF00300581 /* BoomAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BoomAppDelegate.m; sourceTree = "<group>"; };
 		70BBB27913DE3BAF00300581 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		70FAF08613E0C8FC00986B0D /* Boom-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Boom-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -734,7 +736,8 @@
 		70BBB26A13DE3BAF00300581 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				70BBB26B13DE3BAF00300581 /* Boom-Info.plist */,
+				70FAF08613E0C8FC00986B0D /* Boom-Info.plist */,
+				70BBB26B13DE3BAF00300581 /* Boom-Info-in.plist */,
 				70BBB26C13DE3BAF00300581 /* InfoPlist.strings */,
 				70BBB26F13DE3BAF00300581 /* main.m */,
 				70BBB27113DE3BAF00300581 /* Boom-Prefix.pch */,
@@ -782,6 +785,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 70BBB27D13DE3BAF00300581 /* Build configuration list for PBXNativeTarget "Boom" */;
 			buildPhases = (
+				70FAF08513E0C76300986B0D /* ShellScript */,
 				70BBB25B13DE3BAE00300581 /* Sources */,
 				70BBB25C13DE3BAE00300581 /* Frameworks */,
 				70BBB25D13DE3BAE00300581 /* Resources */,
@@ -833,6 +837,7 @@
 				70BBB27A13DE3BAF00300581 /* MainMenu.xib in Resources */,
 				70A8790C13DE427100BF60D9 /* bob-omb.png in Resources */,
 				707B66FF13DE7043009E98CB /* bob-omb.icns in Resources */,
+				70FAF08713E0C8FC00986B0D /* Boom-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -859,6 +864,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
 			shellScript = "set -e\n\n${SRCROOT}/libpcap-1.1.1/runlex.sh flex -Ppcap_ -o${SRCROOT}/libpcap-1.1.1/scanner.c ${SRCROOT}/libpcap-1.1.1/scanner.l\nbison -y -p pcap_ -d -o${SRCROOT}/libpcap-1.1.1/y.tab.c ${SRCROOT}/libpcap-1.1.1/grammar.y\nmv ${SRCROOT}/libpcap-1.1.1/y.tab.c ${SRCROOT}/libpcap-1.1.1/grammar.c\nmv ${SRCROOT}/libpcap-1.1.1/y.tab.h ${SRCROOT}/libpcap-1.1.1/tokdefs.h\nif grep GIT ${SRCROOT}/libpcap-1.1.1/VERSION >/dev/null; then\n    read ver < ${SRCROOT}/libpcap-1.1.1/VERSION;\n    echo $ver | tr -d '\\012';\n    date +_%Y_%m_%d;\nelse\n    cat ${SRCROOT}/libpcap-1.1.1/VERSION;\nfi | sed -e 's/.*/static const char pcap_version_string[] = \"libpcap version &\";/' > ${SRCROOT}/libpcap-1.1.1/version.h\nif grep GIT ${SRCROOT}/libpcap-1.1.1/VERSION >/dev/null; then\n    read ver < ${SRCROOT}/libpcap-1.1.1/VERSION;\n    echo $ver | tr -d '\\012';\n    date +_%Y_%m_%d;\nelse\n    cat ${SRCROOT}/libpcap-1.1.1/VERSION;\nfi | sed -e 's/.*/char pcap_version[] = \"&\";/' > ${SRCROOT}/libpcap-1.1.1/version.c";
+		};
+		70FAF08513E0C76300986B0D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "SHORT_VERSION=`git describe | sed 's/-.*$//'`\nBUNDLE_VERSION=`git describe`\n\nsed \"s/@@SHORT_VERSION@@/${SHORT_VERSION}/\" ${SRCROOT}/Boom/Boom-Info-in.plist | sed \"s/@@BUNDLE_VERSION@@/${BUNDLE_VERSION}/\" > ${SRCROOT}/Boom/Boom-Info.plist";
 		};
 /* End PBXShellScriptBuildPhase section */
 
