@@ -8,6 +8,8 @@
 
 #import "BoomAppDelegate.h"
 
+#import <Security/Security.h>
+
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <ifaddrs.h>
@@ -93,9 +95,40 @@
         char errbuf[PCAP_ERRBUF_SIZE];
         const char *dev = [item.title cStringUsingEncoding: NSISOLatin1StringEncoding];
         //Debug(@"capture from device %s", dev);
-        pcap = pcap_create(dev, errbuf);
-        if (pcap == NULL)
+        int ntries = 0;
+        while ((pcap = pcap_create(dev, errbuf)) == NULL)
         {
+            ntries++;
+            if (ntries < 2)
+            {
+                AuthorizationRef auth;
+                OSStatus retval;
+                retval = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment,
+                                             kAuthorizationFlagDefaults, &auth);
+                if (retval != errAuthorizationSuccess)
+                    continue;
+                
+                AuthorizationItem authItem = { kAuthorizationRightExecute, 0, NULL, 0 };
+                AuthorizationRights authRights = { 1, &authItem };
+                AuthorizationFlags flags = (kAuthorizationFlagDefaults |
+                                            kAuthorizationFlagInteractionAllowed |
+                                            kAuthorizationFlagPreAuthorize |
+                                            kAuthorizationFlagExtendRights);
+                retval = AuthorizationCopyRights(auth, &authRights, NULL, flags, NULL);
+                if (retval != errAuthorizationSuccess)
+                    continue;
+                
+                char *program = "/bin/chmod";
+                char *args[] = { "644", "/dev/bpf*", NULL };
+                FILE *pipe = NULL;
+                
+                retval = AuthorizationExecuteWithPrivileges(auth, program, kAuthorizationFlagDefaults, args, &pipe);
+                if (retval != errAuthorizationSuccess)
+                    Debug(@"execute /bin/chmod 644 /dev/bpf* failed: %d", retval);
+                AuthorizationFree(auth, kAuthorizationFlagDestroyRights);
+                
+                continue;
+            }
             Debug(@"pcap_open_live: %s", errbuf);
             [[NSAlert alertWithMessageText: @"Error"
                              defaultButton: @"OK"
