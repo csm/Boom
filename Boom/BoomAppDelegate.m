@@ -96,17 +96,22 @@
         const char *dev = [item.title cStringUsingEncoding: NSISOLatin1StringEncoding];
         //Debug(@"capture from device %s", dev);
         int ntries = 0;
-        while ((pcap = pcap_create(dev, errbuf)) == NULL)
+        while ((pcap = pcap_open_live(dev, 65535, 0, 100, errbuf)) == NULL)
         {
             ntries++;
             if (ntries < 2)
             {
+                Debug(@"Attempting to change /dev/bpf* permissions");
                 AuthorizationRef auth;
                 OSStatus retval;
                 retval = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment,
                                              kAuthorizationFlagDefaults, &auth);
                 if (retval != errAuthorizationSuccess)
+                {
+                    Debug(@"AuthorizationCreate: %d", retval);
+                    AuthorizationFree(auth, kAuthorizationFlagDestroyRights);
                     continue;
+                }
                 
                 AuthorizationItem authItem = { kAuthorizationRightExecute, 0, NULL, 0 };
                 AuthorizationRights authRights = { 1, &authItem };
@@ -116,15 +121,34 @@
                                             kAuthorizationFlagExtendRights);
                 retval = AuthorizationCopyRights(auth, &authRights, NULL, flags, NULL);
                 if (retval != errAuthorizationSuccess)
+                {
+                    Debug(@"AuthorizationCopyRights: %d", retval);
+                    AuthorizationFree(auth, kAuthorizationFlagDestroyRights);
                     continue;
+                }
                 
-                char *program = "/bin/chmod";
-                char *args[] = { "644", "/dev/bpf*", NULL };
-                FILE *pipe = NULL;
+                NSFileManager *fm = [NSFileManager defaultManager];
+                NSError *error = nil;
+                NSArray *files = [fm contentsOfDirectoryAtPath: @"/dev"
+                                                         error: &error];
+                if (files == nil)
+                {
+                    
+                }
+                for (NSString *file in files)
+                {
+                    if ([file hasPrefix: @"bpf"])
+                    {
+                        NSString *path = [@"/dev" stringByAppendingPathComponent: file];
+                        const char *program = "/bin/chmod";
+                        char * const args[] = { "644", (char *) [path cStringUsingEncoding: NSASCIIStringEncoding], NULL };
+                        FILE *pipe = NULL;
                 
-                retval = AuthorizationExecuteWithPrivileges(auth, program, kAuthorizationFlagDefaults, args, &pipe);
-                if (retval != errAuthorizationSuccess)
-                    Debug(@"execute /bin/chmod 644 /dev/bpf* failed: %d", retval);
+                        retval = AuthorizationExecuteWithPrivileges(auth, program, kAuthorizationFlagDefaults, args, &pipe);
+                        if (retval != errAuthorizationSuccess)
+                            Debug(@"execute /bin/chmod 644 %@ failed: %d", path, retval);
+                    }
+                }
                 AuthorizationFree(auth, kAuthorizationFlagDestroyRights);
                 
                 continue;
@@ -141,15 +165,15 @@
                           contextInfo: NULL];
             return;
         }
-        pcap_set_buffer_size(pcap, 65535);
-        pcap_set_timeout(pcap, 100);
-        pcap_set_promisc(pcap, 0);
+        //pcap_set_buffer_size(pcap, 65535);
+        //pcap_set_timeout(pcap, 100);
+        //pcap_set_promisc(pcap, 0);
         
         NSString *filter = [[packetFilterField stringValue] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]];
         if (filter == nil || [filter length] == 0)
             filter = @"tcp || udp";
         
-        if (pcap_activate(pcap) != 0)
+        /*if (pcap_activate(pcap) != 0)
         {
             Debug(@"pcap_activate: %s", pcap_geterr(pcap));
             [[NSAlert alertWithMessageText: @"Error"
@@ -164,7 +188,7 @@
             pcap_close(pcap);
             pcap = NULL;
             return;
-        }
+        }*/
 
         struct bpf_program prog;
         Debug(@"using filter %@", filter);
