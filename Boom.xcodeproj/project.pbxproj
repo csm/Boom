@@ -45,6 +45,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		70515B0913E21040000D206C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 70BBB25613DE3BAE00300581 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 70515B0313E20F96000D206C;
+			remoteInfo = "Version Info Processing";
+		};
 		70CD40C713DF7A8C00B786DD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 70BBB25613DE3BAE00300581 /* Project object */;
@@ -55,6 +62,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		70515B0813E20FE3000D206C /* gen-infoplist.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "gen-infoplist.sh"; sourceTree = "<group>"; };
 		707B66FE13DE7043009E98CB /* bob-omb.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "bob-omb.icns"; sourceTree = "<group>"; };
 		707B670013DE796B009E98CB /* NetworkAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkAddress.h; sourceTree = "<group>"; };
 		707B670113DE796C009E98CB /* NetworkAddress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkAddress.m; sourceTree = "<group>"; };
@@ -679,6 +687,7 @@
 		70BBB25413DE3BAE00300581 = {
 			isa = PBXGroup;
 			children = (
+				70515B0813E20FE3000D206C /* gen-infoplist.sh */,
 				70A6766813DFA2E600007420 /* Security.framework */,
 				70A8795113DF6D9C00BF60D9 /* libpcap-1.1.1 */,
 				70A8791513DF523800BF60D9 /* README.md */,
@@ -762,6 +771,23 @@
 		};
 /* End PBXHeadersBuildPhase section */
 
+/* Begin PBXLegacyTarget section */
+		70515B0313E20F96000D206C /* Version Info Processing */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "gen-infoplist.sh";
+			buildConfigurationList = 70515B0613E20F96000D206C /* Build configuration list for PBXLegacyTarget "Version Info Processing" */;
+			buildPhases = (
+			);
+			buildToolPath = bash;
+			buildWorkingDirectory = /Users/csm/Source/Boom;
+			dependencies = (
+			);
+			name = "Version Info Processing";
+			passBuildSettingsInEnvironment = 1;
+			productName = "Version Info Processing";
+		};
+/* End PBXLegacyTarget section */
+
 /* Begin PBXNativeTarget section */
 		70A87A3D13DF6E9A00BF60D9 /* pcap */ = {
 			isa = PBXNativeTarget;
@@ -785,7 +811,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 70BBB27D13DE3BAF00300581 /* Build configuration list for PBXNativeTarget "Boom" */;
 			buildPhases = (
-				70FAF08513E0C76300986B0D /* ShellScript */,
 				70BBB25B13DE3BAE00300581 /* Sources */,
 				70BBB25C13DE3BAE00300581 /* Frameworks */,
 				70BBB25D13DE3BAE00300581 /* Resources */,
@@ -793,6 +818,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				70515B0A13E21040000D206C /* PBXTargetDependency */,
 				70CD40C813DF7A8C00B786DD /* PBXTargetDependency */,
 			);
 			name = Boom;
@@ -823,6 +849,7 @@
 			targets = (
 				70BBB25E13DE3BAE00300581 /* Boom */,
 				70A87A3D13DF6E9A00BF60D9 /* pcap */,
+				70515B0313E20F96000D206C /* Version Info Processing */,
 			);
 		};
 /* End PBXProject section */
@@ -864,20 +891,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
 			shellScript = "set -e\n\n${SRCROOT}/libpcap-1.1.1/runlex.sh flex -Ppcap_ -o${SRCROOT}/libpcap-1.1.1/scanner.c ${SRCROOT}/libpcap-1.1.1/scanner.l\nbison -y -p pcap_ -d -o${SRCROOT}/libpcap-1.1.1/y.tab.c ${SRCROOT}/libpcap-1.1.1/grammar.y\nmv ${SRCROOT}/libpcap-1.1.1/y.tab.c ${SRCROOT}/libpcap-1.1.1/grammar.c\nmv ${SRCROOT}/libpcap-1.1.1/y.tab.h ${SRCROOT}/libpcap-1.1.1/tokdefs.h\nif grep GIT ${SRCROOT}/libpcap-1.1.1/VERSION >/dev/null; then\n    read ver < ${SRCROOT}/libpcap-1.1.1/VERSION;\n    echo $ver | tr -d '\\012';\n    date +_%Y_%m_%d;\nelse\n    cat ${SRCROOT}/libpcap-1.1.1/VERSION;\nfi | sed -e 's/.*/static const char pcap_version_string[] = \"libpcap version &\";/' > ${SRCROOT}/libpcap-1.1.1/version.h\nif grep GIT ${SRCROOT}/libpcap-1.1.1/VERSION >/dev/null; then\n    read ver < ${SRCROOT}/libpcap-1.1.1/VERSION;\n    echo $ver | tr -d '\\012';\n    date +_%Y_%m_%d;\nelse\n    cat ${SRCROOT}/libpcap-1.1.1/VERSION;\nfi | sed -e 's/.*/char pcap_version[] = \"&\";/' > ${SRCROOT}/libpcap-1.1.1/version.c";
-		};
-		70FAF08513E0C76300986B0D /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-				"$(SRCROOT)/Boom/Boom-Info.plist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/bash;
-			shellScript = "SHORT_VERSION=`git describe | sed 's/-.*$//'`\nBUNDLE_VERSION=`git describe`\n\nsed \"s/@@SHORT_VERSION@@/${SHORT_VERSION}/\" ${SRCROOT}/Boom/Boom-Info-in.plist | sed \"s/@@BUNDLE_VERSION@@/${BUNDLE_VERSION}/\" > ${SRCROOT}/Boom/Boom-Info.plist";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -921,6 +934,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		70515B0A13E21040000D206C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 70515B0313E20F96000D206C /* Version Info Processing */;
+			targetProxy = 70515B0913E21040000D206C /* PBXContainerItemProxy */;
+		};
 		70CD40C813DF7A8C00B786DD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 70A87A3D13DF6E9A00BF60D9 /* pcap */;
@@ -956,6 +974,29 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		70515B0413E20F96000D206C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUGGING_SYMBOLS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		70515B0513E20F96000D206C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		70A87A4013DF6E9A00BF60D9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1058,6 +1099,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		70515B0613E20F96000D206C /* Build configuration list for PBXLegacyTarget "Version Info Processing" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				70515B0413E20F96000D206C /* Debug */,
+				70515B0513E20F96000D206C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		70A87A3F13DF6E9A00BF60D9 /* Build configuration list for PBXNativeTarget "pcap" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

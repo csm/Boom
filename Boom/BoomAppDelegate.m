@@ -47,7 +47,30 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     counters = [[NSMutableDictionary alloc] init];
-    // Insert code here to initialize your application
+    [[NSUserDefaults standardUserDefaults] addObserver: self
+                                            forKeyPath: @"alwaysOnTop"
+                                               options: 0
+                                               context: NULL];
+    BOOL onTop = [[NSUserDefaults standardUserDefaults] boolForKey: @"alwaysOnTop"];
+    if (onTop)
+        [window setLevel: NSStatusWindowLevel];
+    else
+        [window setLevel: NSNormalWindowLevel];
+}
+
+- (void) observeValueForKeyPath: (NSString *) keyPath
+                       ofObject: (id) object
+                         change: (NSDictionary *) change
+                        context: (void *) context
+{
+    if ([keyPath isEqualToString: @"alwaysOnTop"])
+    {
+        BOOL onTop = [[NSUserDefaults standardUserDefaults] boolForKey: @"alwaysOnTop"];
+        if (onTop)
+            [window setLevel: NSStatusWindowLevel];
+        else
+            [window setLevel: NSNormalWindowLevel];
+    }
 }
 
 #pragma mark - Accessors
