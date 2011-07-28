@@ -374,7 +374,7 @@
 										<bytes key="NSWhite">MC42NjY2NjY2NjY3AA</bytes>
 									</object>
 								</object>
-								<object class="NSColor" key="NSTextColor" id="153917437">
+								<object class="NSColor" key="NSTextColor" id="830528180">
 									<int key="NSColorSpace">1</int>
 									<bytes key="NSRGB">MCAwIDAAA</bytes>
 								</object>
@@ -398,7 +398,7 @@
 								<reference key="NSControlView" ref="366198431"/>
 								<int key="NSButtonFlags">-2038021889</int>
 								<int key="NSButtonFlags2">129</int>
-								<object class="NSFont" key="NSAlternateImage" id="597787690">
+								<object class="NSFont" key="NSAlternateImage" id="349226819">
 									<string key="NSName">LucidaGrande-Bold</string>
 									<double key="NSSize">13</double>
 									<int key="NSfFlags">16</int>
@@ -432,11 +432,11 @@
 												<string key="NSFrameSize">{475, 17}</string>
 												<reference key="NSSuperview" ref="632445527"/>
 												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView" ref="395213149"/>
+												<reference key="NSNextKeyView" ref="1040372041"/>
 												<string key="NSReuseIdentifierKey">_NS:1199</string>
 												<reference key="NSTableView" ref="524275815"/>
 											</object>
-											<object class="_NSCornerView" key="NSCornerView" id="395213149">
+											<object class="_NSCornerView" key="NSCornerView" id="1040372041">
 												<reference key="NSNextResponder" ref="729448265"/>
 												<int key="NSvFlags">-2147483392</int>
 												<string key="NSFrame">{{224, 0}, {16, 17}}</string>
@@ -683,7 +683,7 @@
 									<reference key="NSBGColor" ref="785191579"/>
 									<int key="NScvFlags">4</int>
 								</object>
-								<reference ref="395213149"/>
+								<reference ref="1040372041"/>
 							</array>
 							<string key="NSFrame">{{20, 20}, {477, 246}}</string>
 							<reference key="NSSuperview" ref="439893737"/>
@@ -695,7 +695,7 @@
 							<reference key="NSHScroller" ref="198791316"/>
 							<reference key="NSContentView" ref="583091827"/>
 							<reference key="NSHeaderClipView" ref="632445527"/>
-							<reference key="NSCornerView" ref="395213149"/>
+							<reference key="NSCornerView" ref="1040372041"/>
 							<bytes key="NSScrollAmts">QSAAAEEgAABBmAAAQZgAAA</bytes>
 						</object>
 						<object class="NSButton" id="676127120">
@@ -716,7 +716,7 @@
 								<reference key="NSControlView" ref="676127120"/>
 								<int key="NSButtonFlags">-2038284033</int>
 								<int key="NSButtonFlags2">129</int>
-								<reference key="NSAlternateImage" ref="597787690"/>
+								<reference key="NSAlternateImage" ref="349226819"/>
 								<string key="NSAlternateContents"/>
 								<string key="NSKeyEquivalent"/>
 								<int key="NSPeriodicDelay">200</int>
@@ -740,7 +740,7 @@
 								<string key="NSCellIdentifier">_NS:3936</string>
 								<reference key="NSControlView" ref="712796599"/>
 								<reference key="NSBackgroundColor" ref="331426623"/>
-								<reference key="NSTextColor" ref="153917437"/>
+								<reference key="NSTextColor" ref="830528180"/>
 							</object>
 						</object>
 						<object class="NSTextField" id="949695967">
@@ -767,10 +767,7 @@
 									<string key="NSColorName">textBackgroundColor</string>
 									<reference key="NSColor" ref="532660492"/>
 								</object>
-								<object class="NSColor" key="NSTextColor">
-									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MSAxIDEAA</bytes>
-								</object>
+								<reference key="NSTextColor" ref="830528180"/>
 							</object>
 						</object>
 					</array>
@@ -832,7 +829,7 @@
 				</object>
 				<object class="NSAttributedString" key="NS.nan">
 					<string key="NSString">NaN</string>
-					<dictionary key="NSAttributes" id="755979423"/>
+					<dictionary key="NSAttributes" id="1058212953"/>
 				</object>
 				<object class="NSDecimalNumberPlaceholder" key="NS.min" id="179544409">
 					<int key="NS.exponent">0</int>
@@ -874,7 +871,7 @@
 				</object>
 				<object class="NSAttributedString" key="NS.nan">
 					<string key="NSString">NaN</string>
-					<reference key="NSAttributes" ref="755979423"/>
+					<reference key="NSAttributes" ref="1058212953"/>
 				</object>
 				<reference key="NS.min" ref="179544409"/>
 				<reference key="NS.max" ref="179544409"/>
@@ -903,7 +900,7 @@
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>
 				<object class="NSView" key="NSWindowView" id="172699730">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<array class="NSMutableArray" key="NSSubviews">
 						<object class="NSButton" id="330072503">
@@ -911,6 +908,7 @@
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{18, 77}, {240, 18}}</string>
 							<reference key="NSSuperview" ref="172699730"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="769640524"/>
 							<string key="NSReuseIdentifierKey">_NS:239</string>
 							<bool key="NSEnabled">YES</bool>
@@ -941,6 +939,8 @@
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{37, 20}, {222, 51}}</string>
 							<reference key="NSSuperview" ref="172699730"/>
+							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:3596</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="708753618">
@@ -968,6 +968,8 @@
 						</object>
 					</array>
 					<string key="NSFrameSize">{276, 113}</string>
+					<reference key="NSSuperview"/>
+					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="330072503"/>
 					<string key="NSReuseIdentifierKey">_NS:2837</string>
 				</object>
@@ -1482,11 +1484,11 @@
 						<array class="NSMutableArray" key="children">
 							<reference ref="775836538"/>
 							<reference ref="1013970977"/>
-							<reference ref="949695967"/>
 							<reference ref="712796599"/>
 							<reference ref="729448265"/>
 							<reference ref="366198431"/>
 							<reference ref="676127120"/>
+							<reference ref="949695967"/>
 						</array>
 						<reference key="parent" ref="972006081"/>
 					</object>
