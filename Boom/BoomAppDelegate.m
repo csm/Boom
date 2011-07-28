@@ -343,7 +343,7 @@
                     [counters setObject: entry forKey: addr];
                     [entry release];
                 }
-                entry._bytesIn += udp->uh_ulen - 8;
+                entry._bytesIn += hdr->len - sizeof(struct ether_header) - (ip->ip_hl*4) - 8;
                 [addr release];
             }
             else if (memcmp(&ip->ip_src, &inaddr, sizeof(struct in_addr)) == 0)
@@ -359,7 +359,7 @@
                     [counters setObject: entry forKey: addr];
                     [entry release];
                 }
-                entry._bytesOut += udp->uh_ulen - 8;
+                entry._bytesOut += hdr->len - sizeof(struct ether_header) - (ip->ip_hl*4) - 8;
                 [addr release];
             }
         }
@@ -417,7 +417,7 @@
                     [counters setObject: entry forKey: addr];
                     [entry release];
                 }
-                entry._bytesIn += udp->uh_ulen - 8;
+                entry._bytesIn += ip6->ip6_ctlun.ip6_un1.ip6_un1_plen - 8;
                 [addr release];
             }
             else if (memcmp(&ip6->ip6_src, &in6addr, sizeof(struct in6_addr)) == 0)
@@ -432,7 +432,7 @@
                     [counters setObject: entry forKey: addr];
                     [entry release];
                 }
-                entry._bytesOut += udp->uh_ulen - 8;
+                entry._bytesOut += ip6->ip6_ctlun.ip6_un1.ip6_un1_plen - 8;
                 [addr release];
             }
         }   
